@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import dataPersistence from '../persistence/DataPersistence';
+import dataPersistence from '../persistence/DataPersistenceWithAxios';
 
 class TableRow extends Component {
     constructor(props) {
@@ -35,11 +35,15 @@ class TableRow extends Component {
         modifiedUser.tel = this.state.tel;
         modifiedUser.quyen = this.state.quyen;
         
-        dataPersistence.updateUser(modifiedUser);
+        dataPersistence.updateUser(modifiedUser, (result) => {
+            console.debug("User updated!");
+        });
     }
 
     onDelete = (userId) => {
-        dataPersistence.deleteUser(userId);
+        dataPersistence.deleteUser(userId, (result) => {
+            console.debug("User deleted!");
+        });
     }
 
     render() {

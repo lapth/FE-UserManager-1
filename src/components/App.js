@@ -7,16 +7,16 @@ import AddUser from './AddUser';
 import ButtonsSwap from './ButtonsSwap';
 import {connect} from 'react-redux';
 import * as APP_CONST from '../common/AppConst'
-import dataPersistence from '../persistence/DataPersistence';
+import dataPersistence from '../persistence/DataPersistenceWithAxios';
 import DataFilter from '../common/DataFilter';
 
 class App extends Component {
 
   componentWillMount() {
-    dataPersistence.registerDataChange((appData) => {
-      this.props.syncFirebaseStorage(
-        appData,
-        this.props.resultFilter)
+    dataPersistence.getAllUser((datas) => {
+      this.props.initData(
+        datas,
+        this.props.resultFilter);
     })
   }
 
@@ -47,7 +47,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    syncFirebaseStorage: (storedData, resultFilter) => {
+    initData: (storedData, resultFilter) => {
       var newTmpData = DataFilter.getFilteredData(resultFilter, storedData)
       dispatch({
         type: APP_CONST.STORE_SYNC_LOCAL_STORAGE,

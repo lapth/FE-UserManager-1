@@ -48,6 +48,6 @@ class DataPersistence {
 }
 
 
-var dataPersistence = new DataPersistence();
+// var dataPersistence = new DataPersistence();
 
-export default dataPersistence;
+export default DataPersistence;

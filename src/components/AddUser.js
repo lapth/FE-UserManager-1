@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import dataPersistence from '../persistence/DataPersistence';
+import dataPersistence from '../persistence/DataPersistenceWithAxios';
 
 class AddUser extends Component {
     constructor(props) {
@@ -29,7 +29,9 @@ class AddUser extends Component {
             "quyen": this.state.quyen
         }
 
-        dataPersistence.addUser(newUser);
+        dataPersistence.addUser(newUser, (result) => {
+            console.debug ("User added!");
+        });
     }
 
     hienThiForm = () => {

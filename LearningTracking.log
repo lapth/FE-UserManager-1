@@ -1,0 +1,103 @@
+https://radiant-earth-41346.herokuapp.com/users
+
+
+071 - Dien giai AddUser form072 - Luu lai AddUser form field
+073 - Dang goi thong tin vao object
+074 - Ket noi den App
+075 - Them du lieu moi vao list
+076 - Convert AddUser to form reset
+077 - Id voi UUID
+078 - Mo ta edit User
+079 - Ket not edit func
+080 - In thong tin clicked
+081 - Tao form Edit User
+082 - Swap Edit form
+083 - Edit form default value
+084
+085
+086 - Cap nhat lai du lieu len table
+087 - Delete user connect
+088 - Delete item with filter func
+089
+090
+091
+092
+093
+094
+095
+096
+098
+099
+100
+101
+102
+103
+104 - Redux switch action type
+105 - dispatch subscribe
+106 - Redux snippet
+107 - Export store. tai sao phai su dung 1 dispatch khi export truoc khi dung trong App ?
+108 - react-redux-connect store
+109 - combine producer
+110 - Trigger an action inside of store
+111 - Trigger an action inside of store 1
+112 - Lam sample app bang redux
+113
+115 - Introduce Firebase
+116 - Them du lieu vao Firebase
+117 - Ket noi firebase
+118 - Lay du lieu tu firebase
+119 - Cap nhat du lieu firebase
+120 - Dung push de auto gen id trong firebase
+121 - Remove data from firebase
+122 - Xay dung ung dung notes
+123 - Lay thong tin tu form
+124 - Push note len firebase
+125 - Xay dung lai redux cho note
+126 - Ket noi store
+127 - Truyen tham so len store
+128 - Push du lieu len firebase
+129 - Lay du lieu tu firebase va set vao state thong qua ham ON
+130 - Do du lieu ra form
+131 - Ket noi state voi App
+132 - Ket noi xuong NoteList - Click Edit
+133 - Edit noi dung can sua
+134 - Nhan item can sua
+135 - Day du lieu len form
+136 - Load item ve (co id)
+137 - Luu du lieu
+138 - Day du lieu len store
+139 - getChild firebase, update
+140 - 
+141 - 
+142
+143 - Alert nitifier
+144
+145
+146
+147
+148 - Hoan thien notifier
+149 - Mo ta cach lam nodejs, reactjs, mongodb
+150 - cai dat postgress
+151
+152 - Cai dat Express cho nodejs
+153
+154 - Doi port chay backend local
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
