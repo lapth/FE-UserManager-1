@@ -1,5 +1,5 @@
 {
-  "name": "FE_User_Manager",
+  "name": "fe_user_manager",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,6 +7,7 @@
     "firebase": "^5.5.4",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-loading": "^2.0.3",
     "react-redux": "^5.0.7",
     "react-scripts": "^2.0.5",
     "redux": "^4.0.0",

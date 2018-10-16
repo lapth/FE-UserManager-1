@@ -5,20 +5,8 @@ import Search from './Search';
 import Tabledata from './Tabledata';
 import AddUser from './AddUser';
 import ButtonsSwap from './ButtonsSwap';
-import {connect} from 'react-redux';
-import * as APP_CONST from '../common/AppConst'
-import dataPersistence from '../persistence/DataPersistenceWithAxios';
-import DataFilter from '../common/DataFilter';
 
 class App extends Component {
-
-  componentWillMount() {
-    dataPersistence.getAllUser((datas) => {
-      this.props.initData(
-        datas,
-        this.props.resultFilter);
-    })
-  }
 
   render() {
     return (
@@ -41,21 +29,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {...state};
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    initData: (storedData, resultFilter) => {
-      var newTmpData = DataFilter.getFilteredData(resultFilter, storedData)
-      dispatch({
-        type: APP_CONST.STORE_SYNC_LOCAL_STORAGE,
-        data: storedData,
-        tmpData: newTmpData
-      })
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App

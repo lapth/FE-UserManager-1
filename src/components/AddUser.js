@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import dataPersistence from '../persistence/DataPersistenceWithAxios';
 import * as APP_CONST from '../common/AppConst'
 import DataFilter from '../common/DataFilter';
+import SpinButton from '../common/SpinButton';
 
 class AddUser extends Component {
     constructor(props) {
@@ -11,7 +12,8 @@ class AddUser extends Component {
         this.state = {
             hoTen: "",
             tel: "",
-            quyen: ""
+            quyen: "",
+            adding: false
         }
     }
     
@@ -25,6 +27,8 @@ class AddUser extends Component {
     }
 
     onBtnAddUserClick = () => {
+        this.setState({adding:true});
+
         var newUser = {
             "hoTen": this.state.hoTen,
             "tel": this.state.tel,
@@ -32,10 +36,17 @@ class AddUser extends Component {
         }
 
         dataPersistence.addUser(newUser, (rtUser) => {
+            this.setState({adding:false});
             this.props.addUser(rtUser, this.props.data, this.props.resultFilter);
         });
     }
 
+    renderLoading = () => {
+        if (this.state.adding === true) {
+            return <i className="fa fa-spinner fa-spin" />
+        }
+    }
+        
     hienThiForm = () => {
         if (this.props.trangThaiSua !== true) {
             return (
@@ -62,7 +73,11 @@ class AddUser extends Component {
                             </select>
                         </div>
                         <div className="form-group">
-                            <div className="btn btn-primary btn-block" onClick = {() => this.onBtnAddUserClick()}>Thêm Mới</div>
+                            <SpinButton 
+                                className="btn btn-primary btn-block" 
+                                onClick = {() => this.onBtnAddUserClick()} 
+                                title="Thêm Mới" 
+                                loading={this.state.adding}/>
                         </div>
                     </div>
                 </div>

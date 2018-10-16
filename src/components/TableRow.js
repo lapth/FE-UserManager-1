@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import dataPersistence from '../persistence/DataPersistenceWithAxios';
 import * as APP_CONST from '../common/AppConst'
 import DataFilter from '../common/DataFilter';
+import SpinButton from '../common/SpinButton';
 
 class TableRow extends Component {
     constructor(props) {
@@ -11,7 +12,9 @@ class TableRow extends Component {
             editMode: false,
             hoTen: this.props.rowData.hoTen,
             tel: this.props.rowData.tel,
-            quyen: this.props.rowData.quyen
+            quyen: this.props.rowData.quyen,
+            deleting: false,
+            updating: false
         };
     }
 
@@ -30,20 +33,24 @@ class TableRow extends Component {
     }
 
     onEditDone = () => {
-        this.swapFormMode();
         //var modifiedUser = this.props.rowData;  // will edit the object in memory
         var modifiedUser = JSON.parse(JSON.stringify(this.props.rowData)); // copy object by JSON
         modifiedUser.hoTen = this.state.hoTen;
         modifiedUser.tel = this.state.tel;
         modifiedUser.quyen = this.state.quyen;
         
+        this.setState({updating: true});
         dataPersistence.updateUser(modifiedUser, (updatedUser) => {
+            this.setState({updating: false});
+            this.swapFormMode();
             this.props.updateUser(updatedUser, this.props.data, this.props.resultFilter);
         });
     }
 
     onDelete = (userId) => {
+        this.setState({deleting: true});
         dataPersistence.deleteUser(userId, (deleteUser) => {
+            this.setState({deleting: false})
             this.props.deleteUser(userId, this.props.data, this.props.resultFilter);
         });
     }
@@ -59,8 +66,12 @@ class TableRow extends Component {
                     <td>
                         <div className="btn-group">
                             <div className="btn btn-warning" onClick={() => this.swapFormMode()}><i className="fa fa-edit" /> Sửa</div>
-                            <div className="btn btn-danger" onClick={() => this.onDelete(this.props.rowData._id)}>
-                                <i className="fa fa-trash" /> Xóa</div>
+                            <SpinButton 
+                                className="btn btn-danger" 
+                                onClick={() => this.onDelete(this.props.rowData._id)}
+                                title="Xóa"
+                                iconClassName="fa fa-trash"
+                                loading={this.state.deleting}/>
                         </div>
                     </td>
                 </tr>
@@ -98,7 +109,12 @@ class TableRow extends Component {
                     </td>
                     <td>
                         <div className="btn-group">
-                            <div className="btn btn-warning" onClick={() => this.onEditDone()}><i className="fa fa-check" /> Done</div>
+                            <SpinButton 
+                                className="btn btn-warning" 
+                                onClick={() => this.onEditDone()}
+                                title="Done"
+                                iconClassName="fa fa-check"
+                                loading={this.state.updating}/>
                         </div>
                     </td>
                 </tr>
