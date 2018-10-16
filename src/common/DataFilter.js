@@ -3,7 +3,7 @@ class DataFilter {
         var filteredArr = [];
         basedData.forEach(element => {
             if (element.hoTen !== undefined && element.hoTen.indexOf(filterValue) !== -1) {
-            filteredArr.push(element);
+                filteredArr.push(element);
             }
         });
 

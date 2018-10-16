@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import dataPersistence from '../persistence/DataPersistenceWithAxios';
+import * as APP_CONST from '../common/AppConst'
+import DataFilter from '../common/DataFilter';
 
 class TableRow extends Component {
     constructor(props) {
@@ -35,14 +37,14 @@ class TableRow extends Component {
         modifiedUser.tel = this.state.tel;
         modifiedUser.quyen = this.state.quyen;
         
-        dataPersistence.updateUser(modifiedUser, (result) => {
-            console.debug("User updated!");
+        dataPersistence.updateUser(modifiedUser, (updatedUser) => {
+            this.props.updateUser(updatedUser, this.props.data, this.props.resultFilter);
         });
     }
 
     onDelete = (userId) => {
-        dataPersistence.deleteUser(userId, (result) => {
-            console.debug("User deleted!");
+        dataPersistence.deleteUser(userId, (deleteUser) => {
+            this.props.deleteUser(userId, this.props.data, this.props.resultFilter);
         });
     }
 
@@ -57,7 +59,7 @@ class TableRow extends Component {
                     <td>
                         <div className="btn-group">
                             <div className="btn btn-warning" onClick={() => this.swapFormMode()}><i className="fa fa-edit" /> Sửa</div>
-                            <div className="btn btn-danger" onClick={() => this.onDelete(this.props.rowData.key)}>
+                            <div className="btn btn-danger" onClick={() => this.onDelete(this.props.rowData._id)}>
                                 <i className="fa fa-trash" /> Xóa</div>
                         </div>
                     </td>
@@ -116,6 +118,31 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        updateUser: (updatedUser, curData, resultFilter) => {
+            curData.forEach(ele => {
+                if (ele._id === updatedUser._id) {
+                    ele.hoTen = updatedUser.hoTen;
+                    ele.tel = updatedUser.tel;
+                    ele.quyen = updatedUser.quyen;
+                }
+            })
+            var newTmpData = DataFilter.getFilteredData(resultFilter, curData);
+            dispatch({
+                type: APP_CONST.STORE_ADD_USER,
+                data: curData,
+                tmpData: newTmpData
+            });
+        },
+
+        deleteUser: (userId, curData, resultFilter) => {
+            var newData = curData.filter(item => item._id !== userId);
+            var newTmpData = DataFilter.getFilteredData(resultFilter, newData);
+            dispatch({
+                type: APP_CONST.STORE_ADD_USER,
+                data: newData,
+                tmpData: newTmpData
+            });
+        }
     }
 }
 

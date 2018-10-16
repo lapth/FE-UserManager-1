@@ -1,5 +1,5 @@
 {
-  "name": "055_user_manage",
+  "name": "FE_User_Manager",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,7 +8,7 @@
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
-    "react-scripts": "^2.0.4",
+    "react-scripts": "^2.0.5",
     "redux": "^4.0.0",
     "uuid": "^3.3.2"
   },

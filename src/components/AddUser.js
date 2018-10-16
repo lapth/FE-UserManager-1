@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import dataPersistence from '../persistence/DataPersistenceWithAxios';
+import * as APP_CONST from '../common/AppConst'
+import DataFilter from '../common/DataFilter';
 
 class AddUser extends Component {
     constructor(props) {
@@ -29,8 +31,8 @@ class AddUser extends Component {
             "quyen": this.state.quyen
         }
 
-        dataPersistence.addUser(newUser, (result) => {
-            console.debug ("User added!");
+        dataPersistence.addUser(newUser, (rtUser) => {
+            this.props.addUser(rtUser, this.props.data, this.props.resultFilter);
         });
     }
 
@@ -79,7 +81,7 @@ class AddUser extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
         data: state.data,
         tmpData: state.tmpData,
@@ -89,8 +91,17 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
     return {
+        addUser: (user, curData, resultFilter) => {
+            var newData = [...curData, user];
+            var newTmpData = DataFilter.getFilteredData(resultFilter, newData)
+            dispatch({
+                type: APP_CONST.STORE_ADD_USER,
+                data: newData,
+                tmpData: newTmpData
+            });
+        }
     }
 }
 
