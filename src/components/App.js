@@ -9,14 +9,17 @@ import MultiSelectListBox from './commons/MutilSelectListBox';
 
 class App extends Component {
 
+  onSelect(selectedItems) {
+    console.log(selectedItems);
+  }
+
   render() {
-    var datas = [
-      {"itemName":"item1", "itemValue":"Item 1"},
-      {"itemName":"item2", "itemValue":"Item 2"},
-      {"itemName":"item3", "itemValue":"Item 3"},
-      {"itemName":"item4", "itemValue":"Item 4"}];
+    var datas = [];
+    for (var i=1; i< 100; i++) {
+      datas.push("Item " + i);
+    }
     return (
-      <MultiSelectListBox listDatas={datas}/>
+      <MultiSelectListBox colection={datas} onSelect={this.onSelect} multiSelect={true}/>
       // <div>
       //   <Header />
       //   <div className="searchForm">

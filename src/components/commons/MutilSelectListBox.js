@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import {ListGroup, ListGroupItem} from 'react-bootstrap';
 
 class CustomComponent extends Component {
+    componentDidMount() {
+        this.props.onHeightChange(300);
+    }
+
     render() {
         return (
             <li
@@ -19,13 +24,13 @@ class MultiSelectListBox extends Component {
         selectedStyle: 'list-group-item-success',
         multiSelect: false,
         searchable: false,
-        listDatas: []
+        colection: []
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            lastSelectedItem: null,
+            lastSelectedItem: undefined,
             selectedItems: []
         }
     }
@@ -38,32 +43,48 @@ class MultiSelectListBox extends Component {
         item.classList.remove(this.props.selectedStyle);
     }
 
+    onSelect(currentSelectedItemId) {
+        if (this.props.multiSelect) {
+            var selectedItems = [];
+            if (this.state.selectedItems) {
+                this.state.selectedItems.forEach((value, index) => {
+                    if (value === true)
+                        selectedItems.push(index);
+                })
+            }
+            this.props.onSelect(selectedItems);
+        } else {
+            this.props.onSelect(currentSelectedItemId?[currentSelectedItemId]:[]);
+        }
+    }
+
     onClick(event) {
         
         var currentSelectedItem = event.target;
-        // for the li ... we have to use getAttribute
-        var currentSelectedItemName = currentSelectedItem.getAttribute('name');
+        // for the <li>.name ... we have to use getAttribute, except id
+        var currentSelectedItemId = currentSelectedItem.id;
         var selectedItems_ = this.state.selectedItems;
 
         if (this.props.multiSelect) {
             // re-select to remove selection
             
-            if (selectedItems_[currentSelectedItemName] === true) {
+            if (selectedItems_[currentSelectedItemId] === true) {
                 this.removeSelectedItemStyle(currentSelectedItem);
-                selectedItems_[currentSelectedItemName] = false;
+                selectedItems_[currentSelectedItemId] = false;
             } else {
                 this.addSelectedItemStyle(currentSelectedItem);
-                selectedItems_[currentSelectedItemName] = true;
+                selectedItems_[currentSelectedItemId] = true;
             }
         } else {
-            var lastSelectedItemName = 
-                this.state.lastSelectedItem ? this.state.lastSelectedItem.getAttribute('name') : '';
+            var lastSelectedItemId = 
+                this.state.lastSelectedItem ? this.state.lastSelectedItem.id : undefined;
             // remove selection
-            if (currentSelectedItemName === lastSelectedItemName) {
+            if (currentSelectedItemId === lastSelectedItemId) {
                 this.removeSelectedItemStyle(currentSelectedItem);
                 this.setState ({
-                    lastSelectedItem: null
+                    lastSelectedItem: undefined
                 });
+                currentSelectedItemId = undefined;
             } else {
                 if (this.state.lastSelectedItem) {
                     this.removeSelectedItemStyle(this.state.lastSelectedItem);
@@ -74,19 +95,28 @@ class MultiSelectListBox extends Component {
                 });
             }
         }
+
+        this.onSelect(currentSelectedItemId);
+    }
+
+    onHeightChange(height) {
+        console.log(height);
     }
 
     render() {
-        if (typeof this.props.listDatas === 'undefined' || this.props.listDatas.length === 0) {
+        if (typeof this.props.colection === 'undefined' || this.props.colection.length === 0) {
             console.log("List is empty!");
             return <div></div>;
         }
+
+        var testItem = React.createElement(CustomComponent, {onHeightChange: this.onHeightChange});
+
         return (
             <ListGroup componentClass="ul">
-                {this.props.listDatas.map((val, key) => {
-                    return <CustomComponent key={key} name={val.itemName} 
+                {this.props.colection.map((val, key) => {
+                    return <CustomComponent key={key} id={key} 
                                 onClick={(event) => this.onClick(event)}>
-                                {val.itemValue}
+                                {val}
                             </CustomComponent>
                 })}
             </ListGroup>
