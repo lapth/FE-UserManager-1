@@ -3,10 +3,6 @@ import ReactDOM from 'react-dom';
 import {ListGroup, ListGroupItem} from 'react-bootstrap';
 
 class CustomComponent extends Component {
-    componentDidMount() {
-        this.props.onHeightChange(300);
-    }
-
     render() {
         return (
             <li
@@ -24,8 +20,13 @@ class MultiSelectListBox extends Component {
         selectedStyle: 'list-group-item-success',
         multiSelect: false,
         searchable: false,
-        colection: []
-    }
+        colection: [],
+        containerStyle: {
+            height: '30rem',
+            overflow: 'auto',
+            border:'1px solid #dee2e6'
+        }
+    };
 
     constructor(props) {
         super(props);
@@ -99,27 +100,22 @@ class MultiSelectListBox extends Component {
         this.onSelect(currentSelectedItemId);
     }
 
-    onHeightChange(height) {
-        console.log(height);
-    }
-
     render() {
         if (typeof this.props.colection === 'undefined' || this.props.colection.length === 0) {
-            console.log("List is empty!");
-            return <div></div>;
+            return <div>List is empty!</div>;
         }
 
-        var testItem = React.createElement(CustomComponent, {onHeightChange: this.onHeightChange});
-
         return (
-            <ListGroup componentClass="ul">
-                {this.props.colection.map((val, key) => {
-                    return <CustomComponent key={key} id={key} 
-                                onClick={(event) => this.onClick(event)}>
-                                {val}
-                            </CustomComponent>
-                })}
-            </ListGroup>
+            <div style={this.props.containerStyle}>
+                <ListGroup componentClass="ul">
+                    {this.props.colection.map((val, key) => {
+                        return <CustomComponent key={key} id={key} 
+                                    onClick={(event) => this.onClick(event)}>
+                                    {val}
+                                </CustomComponent>
+                    })}
+                </ListGroup>
+            </div>
         );
     }
 }
